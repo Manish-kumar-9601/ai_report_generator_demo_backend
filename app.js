@@ -1,14 +1,36 @@
-import createError from 'http-errors';
-import express, { json, urlencoded} from 'express';
-import { join } from 'path';
+import express, { json, urlencoded } from 'express';
 import cookieParser from 'cookie-parser';
-import logger from 'morgan';
 import cors from 'cors';
-const corsOption={
+import { Server } from 'socket.io';
+import { createServer } from 'http';
+const corsOption = {
     origin: "*",
     credentials: true
 }
-const  app = express();
+const app = express();
+const httpServer = createServer(app)
+// export const ioServer=new Server(httpServer)
+const socket = new Server(httpServer, {
+    cors: {
+        origin: "*"
+      }
+})
+socket.on('connect', (io) =>
+{
+    console.log('user is connected');
+    io.on('prompt', (prompt) =>
+    {
+        console.log(`prompt from ${io.id} :${prompt}`);
+    })
+    io.on('disconnect', () =>
+    {
+        console.log(`socket ${io.id} disconnected`);
+    })
+}
+
+)
+export { socket }
+
 app.use(cors(corsOption));
 
 // // view engine setup
@@ -21,13 +43,14 @@ app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
 // app.use(static(join(__dirname, 'public')));
 
-app.get('/', (req, res) =>{
+app.get('/', (req, res) =>
+{
     res.send('Hello World!');
 });
 // app.get('/api/v1', (req, res) =>{
-    //     res.send('Hello World!');
-    // });
-    
+//     res.send('Hello World!');
+// });
+
 import indexRouter from './routes/index.router.js';
 app.use('/api/v1', indexRouter);
 
@@ -48,4 +71,4 @@ app.use('/api/v1', indexRouter);
 //   res.render('error');
 // });
 
-export {app};
+export { app, httpServer };

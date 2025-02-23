@@ -36,11 +36,11 @@ export const generator = async (userPrompt, fileName) =>
     }
   });
 
-  console.log(result.response.text());
+  // console.log(result.response.text());
   const done = result.response.text().replaceAll('**', '  ');
 
   docGenerator(done, 'output')
-  return result.response.text();
+  return done
 }
 // const localUrl = "http://localhost:1234/v1/chat/completions "
 
