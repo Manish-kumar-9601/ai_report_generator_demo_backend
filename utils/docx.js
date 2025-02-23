@@ -4,10 +4,13 @@ import Docxtemplater from "docxtemplater";
 
 // Documents contain sections, you can have multiple sections per document, go here to learn more about sections
 // This simple example will only contain one section
-export const docGenerator = async (result, fileName) => {
+export const docGenerator = async (result,fileName,purpose) => {
   // Load the template
-   
-  const content = fs.readFileSync("./assets/template.docx", "binary");
+  let docxPath='./assets/template.docx'
+  if(purpose==='preview'){
+    docxPath='./assets/preview_template.docx'
+  }
+  const content = fs.readFileSync(docxPath, "binary");
   const zip = new PizZip(content);
   const doc = new Docxtemplater(zip, {
     paragraphLoop: true,
@@ -27,5 +30,5 @@ export const docGenerator = async (result, fileName) => {
   });
 
   // Save the document
-  fs.writeFileSync("output.docx", buffer);
+  fs.writeFileSync(`${fileName}.docx`, buffer);
 };

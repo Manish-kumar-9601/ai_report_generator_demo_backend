@@ -39,7 +39,8 @@ export const generator = async (userPrompt, fileName) =>
   // console.log(result.response.text());
   const done = result.response.text().replaceAll('**', '  ');
 
-  docGenerator(done, 'output')
+  docGenerator(done, 'complete','complete')
+  docGenerator(done, 'preview','preview')
   return done
 }
 // const localUrl = "http://localhost:1234/v1/chat/completions "
