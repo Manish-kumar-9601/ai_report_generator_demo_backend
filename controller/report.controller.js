@@ -4,12 +4,10 @@ import fs from 'fs';
 import { fileURLToPath } from "url";
 import { findDocxFiles } from "../utils/findFileName.js";
 import { __dirname } from "../utils/findFileName.js";
-import { socket } from "../app.js";
-
-
 
 export async function makeReport (req, res)
 {
+
     const { reportDetails } = req.body;
     try
     {
@@ -26,7 +24,7 @@ export async function makeReport (req, res)
                 fs.unlink(`complete.docx`, function (err)
                 {
                     if (err) throw err;
-                    // if no error, file has been deleted successfully
+                  
                     console.log('complete File deleted! from makeReport ');
                 });
             }
@@ -43,12 +41,7 @@ export async function makeReport (req, res)
         }
 
         const result = await generator(reportDetails);
-        // console.log("result", result);
-        socket.emit('result', result);
-
-
-
-
+        console.log("result", result);
         res.status(200).json({ message: 'report generated', result })
     } catch (error)
     {

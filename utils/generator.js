@@ -4,7 +4,7 @@ import { docGenerator } from './docx.js';
 import { GoogleGenerativeAI } from "@google/generative-ai"
 const gemini_key = process.env.GEMINI_API_KEY;
 const genAI = new GoogleGenerativeAI(gemini_key);
-const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-lite-preview-02-05" });
 export const generator = async (userPrompt, fileName) =>
 {
 
