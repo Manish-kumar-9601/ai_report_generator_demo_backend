@@ -5,7 +5,7 @@ export const extractParameters = async (filePath) => {
  
     const text = result.value;
     const parameters = [];
-    const regex = /\{{(.*?)\}}/g; // Extract parameters within { }
+    const regex = /\{(.*?)\}/g; // Extract parameters within { }
     let match;
     while ((match = regex.exec(text)) !== null) {
       parameters.push(match[1].trim());

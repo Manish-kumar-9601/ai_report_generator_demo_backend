@@ -3,7 +3,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 export const __dirname = path.resolve(fileURLToPath(import.meta.url));
-export function findDocxFiles ()
+export function findDocxFiles (filePath="../../")
 {
     const directory = path.join(__dirname, "../../"); // Replace with your directory path
     const docxFiles = [];
