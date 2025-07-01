@@ -1,7 +1,7 @@
 ﻿
 import mammoth from 'mammoth';
-export const extractParameters = async (fileBuffer) => {
-  return mammoth.extractRawText({ buffer: fileBuffer }).then((result) => {
+export const extractParameters = async (filePath) => {
+  return mammoth.extractRawText({ path:filePath}).then((result) => {
  
     const text = result.value;
     const parameters = [];
