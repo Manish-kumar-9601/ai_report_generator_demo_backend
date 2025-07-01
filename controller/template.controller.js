@@ -1,5 +1,10 @@
 ﻿ 
 import { docGenerator } from "../utils/docx.js";
+import { findDocxFile, findDocxFiles } from "../utils/findFileName.js";
+import path from "path";
+import { fileURLToPath } from "url";
+
+export const __dirname = path.resolve(fileURLToPath(import.meta.url));
 import { extractParameters } from "../utils/templateExtractor.js";
 export const postTemplate = async (req, res) => {
   try {
@@ -24,6 +29,7 @@ export const postTemplate = async (req, res) => {
 };
 export const postDocTemplate = async (req, res) => {
   try {
+    const directory = path.join(__dirname, "../../");
     // Logic to retrieve templates (if applicable)
     const docArray =req.body?.docForm || [];
     const filePath = req.body?.filePath || "";
@@ -33,9 +39,12 @@ export const postDocTemplate = async (req, res) => {
     }
     docGenerator(docArray, filePath, "doc")
       .then((result) => {
-        console.log("Document generated successfully:", result);
-        // res.json({ message: "Document generated successfully", filePath: result });
-
+        res.json({ message: "Document generated successfully" }).status(200);
+        console.log(findDocxFiles()[0]);
+        const fileName = "new.docx";
+        console.log(`${directory + fileName}`);
+        // res.sendFile(`${directory+ fileName}`);
+        // console.log("Docx files found:", findDocxFiles());
       })
       .catch((error) => {
         console.error("Error generating document:", error);
@@ -47,3 +56,20 @@ export const postDocTemplate = async (req, res) => {
     res.status(500).json({ message: "Error retrieving templates." });
   }
 }
+export const downloadReport = async (req, res) => {
+  try {
+    const directory = path.join(__dirname, "../../");
+  
+    const fileName = "new.docx";
+    console.log(`${directory + fileName}`);
+    res.download(`${directory + fileName}`, (err) => {
+      if (err) {
+        console.error("Error downloading file:", err);
+        res.status(500).send("Error downloading file.");
+      }
+    });
+  } catch (error) {
+    console.error("Error in downloadReport:", error);
+    res.status(500).json({ message: "Error downloading report." });
+  }
+};

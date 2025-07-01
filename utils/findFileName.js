@@ -10,8 +10,7 @@ export function findDocxFiles (filePath="../../")
 
     try
     {
-        const files = fs.readdirSync(directory); // Use sync version for simplicity in this example.
-
+        const files = fs.readdirSync(directory); 
         files.forEach((file) =>
         {
             if (path.extname(file).toLowerCase() === '.docx')
