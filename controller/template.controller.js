@@ -1,11 +1,10 @@
-﻿ 
-import { docGenerator } from "../utils/docx.js";
+﻿import { docGenerator } from "../utils/docx.js";
 import { findDocxFile, findDocxFiles } from "../utils/findFileName.js";
 import path from "path";
 import { fileURLToPath } from "url";
-
 export const __dirname = path.resolve(fileURLToPath(import.meta.url));
 import { extractParameters } from "../utils/templateExtractor.js";
+import { unlink } from "fs";
 export const postTemplate = async (req, res) => {
   try {
     const templateFile = req.file;
@@ -22,6 +21,17 @@ export const postTemplate = async (req, res) => {
     console.log("Extracted Parameters:", param);
 
     res.json({ parameters: param, filePath: templateFile.path });
+    // setTimeout(() => {
+    //   console.log("Deleting temporary file:", templateFile.path);
+    // unlink(templateFile.path, (err) => {
+    //   if (err) {
+    //     console.error("Error deleting file:", err);
+    //   } else {
+    //     console.log("Temporary file deleted successfully");
+    //   }
+    // });
+    // }, 10000);
+    // res.json({ message: "File received successfully" });
   } catch (error) {
     console.error("Error in postTemplate:", error);
     res.status(500).json({ message: "Error processing file." });
@@ -31,11 +41,13 @@ export const postDocTemplate = async (req, res) => {
   try {
     const directory = path.join(__dirname, "../../");
     // Logic to retrieve templates (if applicable)
-    const docArray =req.body?.docForm || [];
+    const docArray = req.body?.docForm || [];
     const filePath = req.body?.filePath || "";
-    console.log("Received docArray:", docArray ,filePath);
+    console.log("Received docArray:", docArray, filePath);
     if (!docArray || !filePath) {
-      return res.status(400).json({ message: "docForm and filePath are required" });
+      return res
+        .status(400)
+        .json({ message: "docForm and filePath are required" });
     }
     docGenerator(docArray, filePath, "doc")
       .then((result) => {
@@ -50,6 +62,19 @@ export const postDocTemplate = async (req, res) => {
         console.error("Error generating document:", error);
         res.status(500).json({ message: "Error generating document." });
       });
+
+    setTimeout(() => {
+      console.log("Deleting temporary file:", filePath);
+    unlink(filePath, (err) => {
+      if (err) {
+        console.error("Error deleting file:", err);
+      } else {
+        console.log("Temporary file deleted successfully");
+      }
+    });
+    }, 100000);
+
+
     // res.json({ message: "Get template endpoint" });
   } catch (error) {
     console.error("Error in getTemplate:", error);
@@ -59,7 +84,7 @@ export const postDocTemplate = async (req, res) => {
 export const downloadReport = async (req, res) => {
   try {
     const directory = path.join(__dirname, "../../");
-  
+
     const fileName = "new.docx";
     console.log(`${directory + fileName}`);
     res.download(`${directory + fileName}`, (err) => {
@@ -68,6 +93,19 @@ export const downloadReport = async (req, res) => {
         res.status(500).send("Error downloading file.");
       }
     });
+
+    setTimeout(() => {
+      console.log("Deleting temporary file:");
+    unlink(`${directory + fileName}`, (err) => {
+      if (err) {
+        console.error("Error deleting file:", err);
+      } else {
+        console.log("Temporary file deleted successfully");
+      }
+    });
+    }, 100000);
+   
+   
   } catch (error) {
     console.error("Error in downloadReport:", error);
     res.status(500).json({ message: "Error downloading report." });
