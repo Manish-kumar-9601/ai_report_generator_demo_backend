@@ -1,5 +1,4 @@
 ﻿import { docGenerator } from "../utils/docx.js";
-import { findDocxFile, findDocxFiles } from "../utils/findFileName.js";
 import path from "path";
 import { fileURLToPath } from "url";
 export const __dirname = path.resolve(fileURLToPath(import.meta.url));
@@ -59,11 +58,8 @@ export const postDocTemplate = async (req, res) => {
     docGenerator(docArray, filePath, filePath.slice(8, -1))
       .then((result) => {
         res.json({ message: "Document generated successfully" }).status(200);
-        console.log(findDocxFiles()[0]);
-        const fileName = "new.docx";
-        console.log(`${directory + fileName}`);
-        // res.sendFile(`${directory+ fileName}`);
-        // console.log("Docx files found:", findDocxFiles());
+
+    
       })
       .catch((error) => {
         console.error("Error generating document:", error);
