@@ -22,16 +22,20 @@ export const postTemplate = async (req, res) => {
     console.log("Extracted Parameters:", param);
 
     res.json({ parameters: param, filePath: templateFile.path });
-    // setTimeout(() => {
-    //   console.log("Deleting temporary file:", templateFile.path);
-    // unlink(templateFile.path, (err) => {
-    //   if (err) {
-    //     console.error("Error deleting file:", err);
-    //   } else {
-    //     console.log("Temporary file deleted successfully");
-    //   }
-    // });
-    // }, 10000);
+    setTimeout(() => {
+      if(`${templateFile.path}` === undefined || `${templateFile.path}` === "") {
+        console.error("No file not found to delete.");
+        return;
+      }
+      console.log("Deleting temporary file:", templateFile.path);
+    unlink(templateFile.path, (err) => {
+      if (err) {
+        console.error("Error deleting file:", err);
+      } else {
+        console.log("Temporary file deleted successfully");
+      }
+    });
+    }, 100000);
     // res.json({ message: "File received successfully" });
   } catch (error) {
     console.error("Error in postTemplate:", error);
@@ -68,6 +72,10 @@ export const postDocTemplate = async (req, res) => {
 
     setTimeout(() => {
       console.log("Deleting temporary file:", filePath);
+      if (filePath === undefined || filePath === "") {
+        console.error("No file not found to delete.");
+        return;
+      }
     unlink(filePath, (err) => {
       if (err) {
         console.error("Error deleting file:", err);
@@ -99,6 +107,10 @@ export const downloadReport = async (req, res) => {
 
     setTimeout(() => {
       console.log("Deleting temporary file:");
+      if (`${directory + fileName}`=== undefined || `${directory + fileName}` === "") {
+        console.error("No file not found to delete.");
+        return;
+      }
     unlink(`${directory + fileName}`, (err) => {
       if (err) {
         console.error("Error deleting file:", err);
