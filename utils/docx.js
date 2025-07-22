@@ -4,7 +4,7 @@ import Docxtemplater from "docxtemplater";
 
 // Documents contain sections, you can have multiple sections per document, go here to learn more about sections
 // This simple example will only contain one section
-export const docGenerator = async (docForm,filePath,purpose) => {
+export const docGenerator = async (docForm,filePath,fileName) => {
   // Load the template
   let docxPath=`${filePath}`;
   // if(purpose==='preview'){
@@ -28,5 +28,5 @@ export const docGenerator = async (docForm,filePath,purpose) => {
   });
 
   // Save the document
-  fs.writeFileSync(`new.docx`, buffer);
+  fs.writeFileSync(`${fileName}`, buffer);
 };

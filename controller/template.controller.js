@@ -5,6 +5,7 @@ import { fileURLToPath } from "url";
 export const __dirname = path.resolve(fileURLToPath(import.meta.url));
 import { extractParameters } from "../utils/templateExtractor.js";
 import { unlink } from "fs";
+let fileName  = "";
 export const postTemplate = async (req, res) => {
   try {
     const templateFile = req.file;
@@ -49,7 +50,9 @@ export const postDocTemplate = async (req, res) => {
         .status(400)
         .json({ message: "docForm and filePath are required" });
     }
-    docGenerator(docArray, filePath, "doc")
+    // console.log('filePath :', filePath.slice(8, -1));
+    fileName = filePath.slice(8, -1);
+    docGenerator(docArray, filePath, filePath.slice(8, -1))
       .then((result) => {
         res.json({ message: "Document generated successfully" }).status(200);
         console.log(findDocxFiles()[0]);
@@ -85,7 +88,7 @@ export const downloadReport = async (req, res) => {
   try {
     const directory = path.join(__dirname, "../../");
 
-    const fileName = "new.docx";
+    ;
     console.log(`${directory + fileName}`);
     res.download(`${directory + fileName}`, (err) => {
       if (err) {
