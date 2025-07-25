@@ -4,6 +4,7 @@
 import { extractParameters } from "../utils/templateExtractor.js";  
 import { upload } from "../middleware/multer.middleware.js";
 import { downloadReport, postDocTemplate, postTemplate } from "../controller/template.controller.js";
+import { uploadTemplate } from "../controller/docFile.controller.js";
 
 const router = express.Router()
 // console.log('template');
@@ -11,9 +12,6 @@ router
   .post("/template", upload.single("templateFile"), postTemplate)
   .post("/docTemplate", postDocTemplate).get("/downloadDocReport",downloadReport);
 
-// router.get("/template", (req, res, next) => {
+router.post('/uploadTemplate', upload.single('templateFile'),uploadTemplate )
 
-// console.log('template upload');
-// res.send('Template upload endpoint');
-// })
 export default router;

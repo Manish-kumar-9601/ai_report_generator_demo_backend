@@ -34,7 +34,7 @@ export const postTemplate = async (req, res) => {
         console.log("Temporary file deleted successfully");
       }
     });
-    }, 100000);
+    }, 1000000);
     // res.json({ message: "File received successfully" });
   } catch (error) {
     console.error("Error in postTemplate:", error);
@@ -43,7 +43,7 @@ export const postTemplate = async (req, res) => {
 };
 export const postDocTemplate = async (req, res) => {
   try {
-    const directory = path.join(__dirname, "../../");
+    // const directory = path.join(__dirname, "../../");
     // Logic to retrieve templates (if applicable)
     const docArray = req.body?.docForm || [];
     const filePath = req.body?.filePath || "";
@@ -79,7 +79,7 @@ export const postDocTemplate = async (req, res) => {
         console.log("Temporary file deleted successfully");
       }
     });
-    }, 100000);
+    }, 1000000);
 
 
     // res.json({ message: "Get template endpoint" });
@@ -114,7 +114,7 @@ export const downloadReport = async (req, res) => {
         console.log("Temporary file deleted successfully");
       }
     });
-    }, 100000);
+    }, 1000000);
    
    
   } catch (error) {

@@ -1,7 +1,7 @@
 ﻿import path from "path";
 import { generator } from "../utils/generator.js";
 import fs from 'fs';
-import { fileURLToPath } from "url";
+
 import { findDocxFiles } from "../utils/findFileName.js";
 import { __dirname } from "../utils/findFileName.js";
 
