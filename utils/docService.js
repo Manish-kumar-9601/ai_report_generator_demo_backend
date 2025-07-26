@@ -1,12 +1,12 @@
 import DocFile from "../models/docFile.model.js";
 
 
-async function createDocFile(title, size, file_data) {
+async function createDocFile(title, size, file_data,file) {
   try {
     
     await DocFile.sync({ alter: true }); // Alters table to match model
 
-    const doc = await DocFile.create({ title, size, file_data });
+    const doc = await DocFile.create({ title, size, file_data ,file});
     return doc.id;
   } catch (err) {
     console.error("Insert failed:", err.message);

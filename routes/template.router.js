@@ -1,17 +1,18 @@
 ﻿import express from "express";
 // import { postTemplate } from "../controller/template.controller.js";
     
-import { extractParameters } from "../utils/templateExtractor.js";  
+ 
 import { upload } from "../middleware/multer.middleware.js";
 import { downloadReport, postDocTemplate, postTemplate } from "../controller/template.controller.js";
-import { uploadTemplate } from "../controller/docFile.controller.js";
+import { getTemplates, uploadTemplate } from "../controller/docFile.controller.js";
 
 const router = express.Router()
-// console.log('template');
+// custom template routes
 router
   .post("/template", upload.single("templateFile"), postTemplate)
   .post("/docTemplate", postDocTemplate).get("/downloadDocReport",downloadReport);
 
-router.post('/uploadTemplate', upload.single('templateFile'),uploadTemplate )
+// template list routes
+router.post('/uploadTemplate', upload.single('templateFile'),uploadTemplate ).get('/getTemplates',getTemplates)
 
 export default router;

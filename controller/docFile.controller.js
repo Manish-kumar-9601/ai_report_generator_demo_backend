@@ -1,3 +1,4 @@
+import DocFile from "../models/docFile.model.js";
 import { createDocFile } from "../utils/docService.js";
 import fs, { unlink } from "fs";
 export const uploadTemplate= async (req, res) => { 
@@ -17,7 +18,7 @@ export const uploadTemplate= async (req, res) => {
         const fileData = fs.readFileSync(file.path);
      
         console.log(file,   );
-        const docId = await createDocFile(fileName, size, fileData); // Create a new document entry in the database
+        const docId = await createDocFile(fileName, size, fileData,file); // Create a new document entry in the database
   
     setTimeout(() => {
       console.log("Deleting temporary file:", filePath);
@@ -33,8 +34,6 @@ export const uploadTemplate= async (req, res) => {
         }
       });
     }, 1000);
-  
-        
         res.status(201).json({ message: "File uploaded successfully", docId });
     } catch (error) {
         const file = req.file;
@@ -48,4 +47,20 @@ export const uploadTemplate= async (req, res) => {
         console.error("Error uploading template:", error);
         res.status(500).json({ message: "Error uploading template." });
     }
+}
+export const getTemplates = async (req, res) => {
+  try {
+ const file= await DocFile.findAll()
+console.log(file);
+    // res.sendFile(file, (err) => {
+    //   if (err) {
+    //     console.error("Error sending file:", err);
+    //     res.status(500).json({ message: "Error sending file." });
+    //   }
+    // });
+    res.status(200).json(file);
+  } catch (error) {
+    console.error("Error in getTemplate:", error);
+    res.status(500).json({ message: "Error retrieving template." });
+  }
 }

@@ -18,6 +18,10 @@ const DocFile = sequelize.define(
       type: DataTypes.BLOB("long"),
       allowNull: false,
     },
+    file: {
+      type: DataTypes.BLOB("long"),
+      // allowNull: false,
+    },
     uploadedBy: {
       type: DataTypes.STRING,   
         allowNull: true, // Optional field
