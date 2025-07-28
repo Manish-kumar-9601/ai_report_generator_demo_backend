@@ -2,7 +2,6 @@ import { makeReport, reportPreview, sendReport } from '../controller/report.cont
 import express from 'express'
 const router = express.Router()
 
-
 router.post('/report', makeReport);
 router.get('/report-preview', reportPreview);
 router.get("/download-report", sendReport);

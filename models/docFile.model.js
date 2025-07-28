@@ -1,5 +1,7 @@
 // models/DocFile.js
 import { DataTypes } from "sequelize";
+ 
+import User from "./user.model.js";
 import sequelize from "../utils/db.js";
 
 const DocFile = sequelize.define(
@@ -24,6 +26,10 @@ const DocFile = sequelize.define(
     uploadedBy: {
       type: DataTypes.STRING,
       allowNull: true,  
+      references:{
+        model: User,  
+        key: 'username', 
+      }
     },
   },
   {
@@ -33,5 +39,5 @@ const DocFile = sequelize.define(
     updatedAt: true,
   }
 );
-
+ 
 export default DocFile;

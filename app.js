@@ -23,7 +23,8 @@ app.get('/', (req, res) =>
 
 import indexRouter from './routes/index.router.js';
 import templateRouter from './routes/template.router.js';
+import userRouter from './routes/user.router.js';
 app.use('/api/v1', indexRouter);
 app.use('/api/v1', templateRouter);
-
+app.use('/api/v1/',userRouter)
 export { app  };

@@ -1,4 +1,6 @@
 import "dotenv/config";
+
+// Database connection setup without using ORM
 // import { createConnection } from "mysql2/promise";
 // MySQL Database connection
 // const connection = createConnection({
@@ -9,10 +11,10 @@ import "dotenv/config";
 //   port: process.env.MYSQL_PORT,
 // });
 
-
-import { QueryInterface, Sequelize } from "sequelize";
+// Database connection setup  using Sequelize ORM
+import {  Sequelize } from "sequelize";
 // Sequelize connection
-const sequelize = new Sequelize(
+ const sequelize = new Sequelize(
   process.env.MYSQL_DATABASE,
   process.env.MYSQL_USER,
   process.env.MYSQL_PASSWORD,
@@ -23,8 +25,8 @@ const sequelize = new Sequelize(
 );
 await sequelize.sync({ alter: true }); // Syncs the model with the database
 
-
- export default sequelize;
-
+ 
+export default  sequelize;
+ 
  
 
