@@ -3,7 +3,7 @@ import sequelize from "../utils/db.js";
  
 
 const Roles= sequelize.define("Roles", {
-  roleId: {
+  id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,

@@ -1,26 +1,37 @@
 import User from "../models/user.model.js";
+import bcryptjs from "bcryptjs";
+import jwt from "jsonwebtoken";
 export const signUp = async (req, res) => {
   try {
     const { username, email, password } = req.body;
     if (!username || !email || !password) {
       return res.status(400).json({ message: "All fields are required." });
     }
-    const existingUser = await User.findOne({ where: { email } });
+    const existingUser = await User.findOne({ where: { email:email } });
     if (existingUser) {
+      console.log("User already exists:", existingUser);
       return res
         .status(400)
         .json({ message: "User already exists. please log in." });
     }
 
-    const newUser = await User.create({
+  await User.create({
       username: username,
       email: email,
       password: password,
-    });
+    }).then((user) => {
+      console.log("User created successfully:", user);
+      
+   res.status(201)
+      .json({ message: "User created successfully", user:user });
+    }).catch((error) => {
+      console.error("Error creating user:", error); 
+      res.status(500).json({ message: "Error creating user." });
+    }
+  );
 
-    res
-      .status(201)
-      .json({ message: "User created successfully", userId: newUser.id });
+ 
+     
   } catch (error) {
     console.error("Error creating user:", error);
     res.status(500).json({ message: "Error creating user." });
@@ -29,24 +40,32 @@ export const signUp = async (req, res) => {
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
+    console.log("Login attempt with email:", email, "and password:", password);
     if (!email || !password) {
       return res
         .status(400)
         .json({ message: "Email and password are required." });
     }
 
-    const user = await User.findOne({ where: { email } });
-    if (!user) {
-      return res.status(404).json({ message: "User not found." });
-    }
-    const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
-    const isPasswordValid = await user.validatePassword(hashedPassword);
-    if (!isPasswordValid) {
+    const user = await User.findOne({where: { email:email }});
+    console.log("User found:", user);
+    // if (!user) {
+    //   return res.status(404).json({ message: "User not found." });
+    // }
+    // const saltRounds = 10;
+    // const hashedPassword = await bcryptjs.hash(password, saltRounds);
+    const isValid=await bcryptjs.compare(password, user.password)
+ 
+
+    if (!isValid) {
+      console.error(
+        "Invalid password for user:",
+        isValid
+      );
+    
       return res.status(401).json({ message: "Invalid password." });
     }
-
-    const token = jwt.sign({ id: newUser.id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ id: user['id'] }, process.env.JWT_SECRET, {
       expiresIn: 86400, // 24 hours
     });
     res.status(200).send({
