@@ -1,7 +1,8 @@
 import DocFile from "../models/docFile.model.js";
 import { createDocFile } from "../utils/docService.js";
 import fs, { unlink } from "fs";
-export const uploadTemplate= async (req, res) => { 
+
+export const uploadDocTemplate= async (req, res) => { 
     try {
         const file = req.file;
         if (!file) {
@@ -48,7 +49,7 @@ export const uploadTemplate= async (req, res) => {
         res.status(500).json({ message: "Error uploading template." });
     }
 }
-export const getTemplates = async (req, res) => {
+export const getDocTemplates = async (req, res) => {
   try {
  const file= await DocFile.findAll()
 console.log(file);
@@ -62,5 +63,20 @@ console.log(file);
   } catch (error) {
     console.error("Error in getTemplate:", error);
     res.status(500).json({ message: "Error retrieving template." });
+  }
+}
+export const deleteDocTemplate = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const docTemplate = await DocFile.findByPk(id);
+    if (!docTemplate) {
+      return res.status(404).json({ message: "Document template not found." });
+    }
+    
+    await docTemplate.destroy();
+    res.status(200).json({ message: "Document template deleted successfully." });
+  } catch (error) {
+    console.error("Error deleting document template:", error);
+    res.status(500).json({ message: "Error deleting document template." });
   }
 }

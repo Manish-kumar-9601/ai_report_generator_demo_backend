@@ -2,7 +2,6 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../utils/db.js";
 
-
 const DocFile = sequelize.define(
   "DocFile",
   {
@@ -20,13 +19,12 @@ const DocFile = sequelize.define(
     },
     file: {
       type: DataTypes.BLOB("long"),
-      // allowNull: false,
+      allowNull: false,
     },
     uploadedBy: {
-      type: DataTypes.STRING,   
-        allowNull: true, // Optional field
+      type: DataTypes.STRING,
+      allowNull: true,  
     },
- 
   },
   {
     tableName: "doc_files",

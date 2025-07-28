@@ -8,8 +8,6 @@ let fileName  = "";
 export const postTemplate = async (req, res) => {
   try {
     const templateFile = req.file;
-
-    // console.log('Received file:', req);
     console.log("rec file", templateFile);
 
     if (!templateFile) {
@@ -34,7 +32,7 @@ export const postTemplate = async (req, res) => {
         console.log("Temporary file deleted successfully");
       }
     });
-    }, 1000000);
+    }, 1800000);
     // res.json({ message: "File received successfully" });
   } catch (error) {
     console.error("Error in postTemplate:", error);
@@ -79,7 +77,7 @@ export const postDocTemplate = async (req, res) => {
         console.log("Temporary file deleted successfully");
       }
     });
-    }, 1000000);
+    }, 1800000);
 
 
     // res.json({ message: "Get template endpoint" });
@@ -114,7 +112,7 @@ export const downloadReport = async (req, res) => {
         console.log("Temporary file deleted successfully");
       }
     });
-    }, 1000000);
+    }, 1800000);
    
    
   } catch (error) {
