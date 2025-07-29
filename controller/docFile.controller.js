@@ -8,7 +8,9 @@ export const uploadDocTemplate= async (req, res) => {
         if (!file) {
         return res.status(400).json({ message: "No file uploaded." });
         }
-    
+        // console.log(req);
+        const {username}= req.body;  
+       
         // Assuming you want to save the file information in the database
         const size = file.size; // Get the size of the uploaded file
         if (size === 0) {
@@ -18,8 +20,15 @@ export const uploadDocTemplate= async (req, res) => {
         const filePath = `${file.path}`; // Define the path where you want to save the file
         const fileData = fs.readFileSync(file.path);
      
-        console.log(file,   );
-        const docId = await createDocFile(fileName, size, fileData,file); // Create a new document entry in the database
+        console.log(file, username, "file and username in uploadDocTemplate");
+        
+        const docId = await createDocFile(
+          fileName,
+          size,
+          fileData,
+          file,
+          username
+        ); // Create a new document entry in the database
   
     setTimeout(() => {
       console.log("Deleting temporary file:", filePath);

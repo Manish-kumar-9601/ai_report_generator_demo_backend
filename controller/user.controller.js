@@ -22,8 +22,17 @@ export const signUp = async (req, res) => {
     }).then((user) => {
       console.log("User created successfully:", user);
       
-   res.status(201)
-      .json({ message: "User created successfully", user:user });
+   res
+     .status(201)
+     .json({
+       message: "User created successfully",
+       id: user.id,
+       username: user.username,
+       email: user.email,
+       roles: user.role,
+       department: user.department,
+       accessToken: token,
+     });
     }).catch((error) => {
       console.error("Error creating user:", error); 
       res.status(500).json({ message: "Error creating user." });
@@ -49,11 +58,7 @@ export const login = async (req, res) => {
 
     const user = await User.findOne({where: { email:email }});
     console.log("User found:", user);
-    // if (!user) {
-    //   return res.status(404).json({ message: "User not found." });
-    // }
-    // const saltRounds = 10;
-    // const hashedPassword = await bcryptjs.hash(password, saltRounds);
+   
     const isValid=await bcryptjs.compare(password, user.password)
  
 
@@ -65,14 +70,15 @@ export const login = async (req, res) => {
     
       return res.status(401).json({ message: "Invalid password." });
     }
-    const token = jwt.sign({ id: user['id'] }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
       expiresIn: 86400, // 24 hours
     });
     res.status(200).send({
       id: user.id,
       username: user.username,
       email: user.email,
-      //   roles: authorities,
+        roles: user.role,
+        department: user.department,
       accessToken: token,
     });
   } catch (error) {
