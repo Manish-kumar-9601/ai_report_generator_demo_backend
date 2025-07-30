@@ -43,7 +43,7 @@ export const uploadDocTemplate= async (req, res) => {
           console.log("Temporary file deleted successfully");
         }
       });
-    }, 1000);
+    }, 10000);
         res.status(201).json({ message: "File uploaded successfully", docId });
     } catch (error) {
         const file = req.file;
