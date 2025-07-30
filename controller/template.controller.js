@@ -9,7 +9,7 @@ export const postTemplate = async (req, res) => {
   try {
     const templateFile = req.file;
     console.log("rec file", templateFile);
-
+  
     if (!templateFile) {
       return res.status(400).json({ message: "File is required" });
     }

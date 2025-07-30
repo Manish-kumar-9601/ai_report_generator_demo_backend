@@ -4,11 +4,12 @@ import fs, { unlink } from "fs";
 
 export const uploadDocTemplate= async (req, res) => { 
     try {
+      console.log('req to upload template');
         const file = req.file;
         if (!file) {
         return res.status(400).json({ message: "No file uploaded." });
         }
-        // console.log(req);
+      console.log(file);
         const {username}= req.body;  
        
         // Assuming you want to save the file information in the database
