@@ -22,6 +22,9 @@ export const signUp = async (req, res) => {
     }).then((user) => {
       console.log("User created successfully:", user);
       
+        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+          expiresIn: 86400, // 24 hours
+        });
    res
      .status(201)
      .json({
